@@ -9,6 +9,14 @@ import getpass
 import pandas as pd
 from datetime import datetime
 from typing import List, Dict, Any
+import pyfiglet
+import logging 
+
+
+ascii_banner = pyfiglet.figlet_format("IP SCANNER")
+print(ascii_banner)
+print("by \033[1;32mDEMEJI\033[0m")  # prints 'jade' in green and bold
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 
 # Default delays chosen to respect the free/public API (4 requests/minute -> one request every 15 seconds)
