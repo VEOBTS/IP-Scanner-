@@ -15,7 +15,7 @@ import logging
 
 ascii_banner = pyfiglet.figlet_format("IP SCANNER")
 print(ascii_banner)
-print("by \033[1;32mDEMEJI\033[0m")  # prints 'jade' in green and bold
+print("by \033[1;32mDEMEJI\033[0m")  # prints 'demeji' in green and bold
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 
