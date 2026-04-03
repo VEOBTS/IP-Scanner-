@@ -1,21 +1,97 @@
-# VirusTotal IP Scanner
+# SEEK
+**Standalone IP threat intelligence CLI — no API key required.**
 
-This project provides a Python-based utility to scan a list of IP addresses against the VirusTotal API provided . It retrieves reputation and analysis details for each IP and outputs the results into a structured CSV report.
+Seek scans IP addresses against locally stored blocklists (Firehol, Spamhaus, Emerging Threats). Everything runs offline. Blocklists update on demand. Ships as a single `pip install`.
+
+## Installation
+
+```bash
+pip install seek
+seek update        # pull fresh blocklists before first scan
+```
 
 
-## Features 
-- Reads IP addresses from a plain text file or csv  (one IP per line).
-- Deduplicates IPs while preserving input order.
-- Queries VirusTotal for IP reputation reports.
-- Handles API rate limits, network errors, and retries with exponential backoff.
+## Commands
 
+### `seek scan` — Scan IPs against local blocklists
 
-## Prerequisites 
-You need a VirusTotal API key.
-Sign up at https://www.virustotal.com to get one.
+| Flag | Description |
+|------|-------------|
+| `--ip <address>` | Scan a single IP directly |
+| `--cidr <range>` | Scan a full CIDR range e.g. `10.0.0.0/24` |
+| `-i, --input <file>` | Path to a file with one IP per line |
+| `-o, --output <file>` | Path to output CSV file |
+| `--json` | Output results as JSON instead of CSV |
 
-### usage
-python scan_ips.py input.txt results.csv
+**Examples:**
+```bash
+seek scan --ip 185.220.101.1
+seek scan --cidr 192.168.1.0/24 -o results.csv
+seek scan -i ips.txt -o results.csv
+seek scan -i ips.txt --json
+```
 
-### Future Enhancements
-Over time, this tool will be extended to cross-check scanned IPs against global lists of known malicious addresses, providing additional context to quickly identify potential threats. In addition, it will incorporate service carrier and geolocation information, showing which network an IP belongs to (e.g., MTN, Glo, Airtel) and its location. These improvements will help security teams prioritize high-risk IPs, understand attack sources, and respond more effectively
+### `seek update` — Refresh local blocklists
+
+Downloads the latest blocklists from Firehol, Spamhaus, and Emerging Threats and saves them to `~/.seek/blocklists/`. The bundled seed lists are never overwritten — they are always the fallback if an update fails.
+
+| Flag | Description |
+|------|-------------|
+| `--source <name>` | Which list to update: `firehol`, `spamhaus`, `emerging`, or `all` (default: `all`) |
+
+**Examples:**
+```bash
+seek update
+seek update --source spamhaus
+seek update --source firehol
+```
+
+### `seek watch` — Monitor live outbound connections
+
+Polls all active outbound network connections on your machine every N seconds and flags any remote IP found in the local blocklists. No admin or root required on Windows.
+
+| Flag | Description |
+|------|-------------|
+| `--interval <seconds>` | Poll frequency in seconds (default: `3`) |
+| `--log <file>` | Optional path to write flagged IPs to a log file |
+
+**Examples:**
+```bash
+seek watch
+seek watch --interval 5
+seek watch --interval 10 --log flagged.txt
+```
+
+## Output Format
+
+### CSV columns (`seek scan`)
+| Column | Description |
+|--------|-------------|
+| `ip` | The scanned IP address |
+| `verdict` | `clean`, `malicious`, or `invalid` |
+| `source` | Which blocklist flagged it (`firehol`, `spamhaus`, `emerging`) |
+
+### Live watch output (`seek watch`)
+Flagged connections print to terminal in real time in red. Clean connections are silent. If `--log` is set, flagged IPs are appended to the log file as `ip,source` per line.
+
+## Blocklist Sources
+
+| Source | Coverage |
+|--------|----------|
+| Firehol Level 1 | Known attackers, scanners, botnets |
+| Spamhaus DROP | Hijacked IP space, spam infrastructure |
+| Emerging Threats | Active threat actors, C2 servers |
+
+Bundled seed lists ship with the package. Run `seek update` to get the latest versions.
+
+## Data Storage
+
+| Path | Contents |
+|------|----------|
+| `~/.seek/blocklists/` | User-updated blocklists (preferred at scan time) |
+| Package `data/` folder | Bundled seed lists (fallback if no update has been run) |
+
+---
+
+## Author
+**DEMEJI** — MIT License
