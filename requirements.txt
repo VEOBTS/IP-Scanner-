@@ -1,0 +1,7 @@
+requests
+psutil
+pandas
+pyfiglet
+rich
+ipaddress
+ 
