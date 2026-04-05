@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: seek
+Version: 0.1.1
+Summary: Standalone IP threat scanner using local blocklists — no API required
+Author: DEMEJI
+License: MIT
+Requires-Python: >=3.8
+Requires-Dist: requests
+Requires-Dist: psutil
+Requires-Dist: pandas
+Requires-Dist: pyfiglet
+Requires-Dist: rich

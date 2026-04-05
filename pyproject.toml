@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seek"
+version = "0.1.1"
+description = "Standalone IP threat scanner using local blocklists — no API required"
+authors = [{ name = "DEMEJI" }]
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+    "requests",
+    "psutil",
+    "pandas",
+    "pyfiglet",
+    "rich",
+]
+
+[project.scripts]
+seek = "seek.cli:main"

@@ -1,0 +1,14 @@
+pyproject.toml
+seek/__init__.py
+seek/blocklist.py
+seek/cli.py
+seek/scanner.py
+seek/updater.py
+seek/utils.py
+seek/watcher.py
+seek.egg-info/PKG-INFO
+seek.egg-info/SOURCES.txt
+seek.egg-info/dependency_links.txt
+seek.egg-info/entry_points.txt
+seek.egg-info/requires.txt
+seek.egg-info/top_level.txt
