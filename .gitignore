@@ -13,3 +13,18 @@ __pycache__/
 
 # Blocklists (user-updated, not source controlled)
 ~/.seek/
+
+# Output files
+results
+*.log
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

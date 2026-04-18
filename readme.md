@@ -7,6 +7,7 @@ Seek scans IP addresses against locally stored blocklists (Firehol, Spamhaus, Em
 
 ```bash
 pip install seek
+or pip install seek-release 
 seek update        # pull fresh blocklists before first scan
 ```
 
